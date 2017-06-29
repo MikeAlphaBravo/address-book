@@ -20,28 +20,43 @@ Address.prototype.fullAddress = function() {
   return this.street + ", " + this.city + " " + this.state + " " + this.zipCode;
 }
 
+function resetFields() {
+    $("input#new-first-name").val("");
+    $("input#new-last-name").val("");
+    $("input.new-street").val("");
+    $("input.new-city").val("");
+    $("input.new-state").val("");
+    $("input.new-zipCode").val("");
+}
+
 // user interface logic
 $(document).ready(function() {
 
   $("#add-address").click(function() {
     $("#new-addresses").append('<div class="new-address">' +
-                                 '<div class="form-group">' +
-                                   '<label for="new-street">Street</label>' +
-                                   '<input type="text" class="form-control new-street">' +
-                                 '</div>' +
-                                 '<div class="form-group">' +
-                                   '<label for="new-city">City</label>' +
-                                   '<input type="text" class="form-control new-city">' +
-                                 '</div>' +
-                                 '<div class="form-group">' +
-                                   '<label for="new-state">State</label>' +
-                                   '<input type="text" class="form-control new-state">' +
-                                 '</div>' +
-                                 '<div class="form-group">' +
-                                   '<label for="new-zipCode">Zip code</label>' +
-                                   '<input type="text" class="form-control new-zipCode">' +
-                                 '</div>' +
-                               '</div>');
+                              '<select class="form-control" id="new-type">' +
+                                '<option>Home</option>' +
+                                '<option>Work</option>' +
+                                '<option>Shipping</option>' +
+                                '<option>Billing</option>' +
+                              '</select>' +
+                              '<div class="form-group">' +
+                                '<label for="new-street">Street</label>' +
+                                '<input type="text" class="form-control new-street">' +
+                              '</div>' +
+                              '<div class="form-group">' +
+                                '<label for="new-city">City</label>' +
+                                '<input type="text" class="form-control new-city">' +
+                              '</div>' +
+                              '<div class="form-group">' +
+                                '<label for="new-state">State</label>' +
+                                '<input type="text" class="form-control new-state">' +
+                              '</div>' +
+                              '<div class="form-group">' +
+                                '<label for="new-zipCode">Zip code</label>' +
+                                '<input type="text" class="form-control new-zipCode">' +
+                              '</div>' +
+                            '</div>');
   });
 
   $("form#new-contact").submit(function(event) {
@@ -52,11 +67,12 @@ $(document).ready(function() {
     var newContact = new Contact(inputtedFirstName, inputtedLastName);
 
     $(".new-address").each(function() {
+      var inputtedType = $(this).find("#new-type").val();
       var inputtedStreet = $(this).find("input.new-street").val();
       var inputtedCity = $(this).find("input.new-city").val();
       var inputtedState = $(this).find("input.new-state").val();
       var inputtedZipCode = $(this).find("input.new-zipCode").val();
-      var newAddress = new Address(inputtedStreet, inputtedCity, inputtedState, inputtedZipCode);
+      var newAddress = new Address(inputtedType, inputtedStreet, inputtedCity, inputtedState, inputtedZipCode);
       newContact.addresses.push(newAddress);
     });
 
@@ -73,11 +89,7 @@ $(document).ready(function() {
       });
     });
 
-    $("input#new-first-name").val("");
-    $("input#new-last-name").val("");
-    $("input.new-street").val("");
-    $("input.new-city").val("");
-    $("input.new-state").val("");
-    $("input.new-zipCode").val("");
+    resetFields();
+
   });
 });
